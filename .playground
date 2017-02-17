@@ -1,0 +1,12 @@
+{
+  "project_name": "LMSR App",
+  "project_description": "Prediction Market using Logarithmic Market Scoring Rules",
+  "show_files": [
+    "main.py",
+    "app.yaml",
+    "appengine_config.py"
+  ],
+  "read_only_files": [
+    "app.yaml"
+  ]
+}

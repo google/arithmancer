@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>Predictions</h1>
+<a href="{{ url_for('GetPredictions') }}">
+<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+  All
+</button>
+</a>
+<ul class="demo-list-one mdl-list">
+{% for prediction in predictions %}
+  <li class="mdl-list__item mdl-list__item--one-line card-1" onclick="location.href = '{{prediction.url}}';" style="cursor: pointer;">
+    <span class="mdl-list__item-primary-content">
+      <i class="material-icons mdl-list__item-avatar">star</i>
+      <span>{{ prediction.statement }}</span>
+    </span>
+    <span class="mdl-list__item-secondary-content">
+      <span class="mdl-list__item-secondary-action">{{prediction.price | round(2)}}%</span>
+    </span>
+  </li>
+{% endfor %}
+</ul>
+{% endblock %}

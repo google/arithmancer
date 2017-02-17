@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>Profile</h1>
+<h4>Balance: {{profile.balance | round(2)}}</h4>
+<h4>Holdings</h4>
+<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+  <thead>
+    <tr>
+      <th class="mdl-data-table__cell--non-numeric">Prediction</th>
+      <th>Yes</th>
+      <th>No</th>
+	  <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+ {% for ledger in profile.user_ledger %}
+    <tr>
+      <td class="mdl-data-table__cell--non-numeric"><a href="../predictions/{{ledger.prediction_id}}"> {{ledger.prediction_statement}} </a></td>
+      <td>{{ledger.contract_one}}</td>
+      <td>{{ledger.contract_two}}</td>
+      <td>{{ledger.value | round(2)}}<td>
+    </tr>
+ {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+

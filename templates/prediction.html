@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block body %}
+<style type="text/css">
+
+.chart {
+  position: relative;
+  display: inline-block;
+  color: #999;
+  font-size: 20px;
+  text-align: center;
+}
+
+.chart figcaption {
+  padding: 50px 25px;
+  width: 100px;
+  height: 50px;
+  border: 20px solid #3f8df9;
+  border-radius: 100px;
+  line-height: 50px;
+}
+.outer {
+  fill: transparent;
+  stroke: #333;
+  stroke-width: 20;
+  stroke-dasharray: 534.07;
+  transition: stroke-dashoffset 1s;
+  -webkit-animation-play-state: running;
+  
+  /* firefox bug fix - won't rotate at 90deg angles */
+  -moz-transform: rotate(-89deg) translateX(-190px);
+}
+svg .outer {
+  stroke: #e34f26;
+}
+.chart svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.chart .outer {
+  stroke-dashoffset: {{(price * 534.07) | round(0)}};
+}
+
+</style>
+<div class="mdl-grid">
+<div class="mdl-cell mdl-cell--12-col">
+<h2>{{ prediction.statement }}</h2>
+<li>Info: {{ prediction.info }}</li>
+<li>Creation Date: {{prediction.creation_time}}</li>
+<li>Resolve Date: {{prediction.end_time}}</li>
+</div>
+<!-- Bet Panel-->
+  <div class="mdl-cell mdl-cell--6-col">
+    <div class="mdl-card mdl-shadow--2dp">
+      <div class="mdl-card__title mdl-card--expand">
+        <h2 class="mdl-card__title-text">Bet</h2>
+      </div>
+    <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+      <div class="mdl-tabs__tab-bar">
+        <a href="#auto-panel" class="mdl-tabs__tab is-active">Predict</a>
+        <a href="#manual-panel" class="mdl-tabs__tab">Manual</a>
+        <a href="#holdings-panel" class="mdl-tabs__tab">Holdings</a>
+      </div>
+        <div class="mdl-tabs__panel" id="manual-panel">
+          <div class="mdl-card__supporting-text">
+            {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %} </p>
+            <form action="{{ url_for('CreateTrade') }}" method=post>
+              <dl>
+                <dt>Buy/Sell
+                <select name="direction">
+                  <option value="BUY">BUY</option>
+                  <option value="SELL">SELL</option>
+                </select>
+                <dt>Contract
+                <select name="contract">
+                  <option value="CONTRACT_ONE">YES</option>
+                  <option value="CONTRACT_TWO">NO</option>
+                </select>
+                <dt>Quantity:
+                <dd><input type=number name=quantity min="0" id="quantity">
+                <div class="mdl-tooltip" for="quantity">
+                  Number of shares to buy
+                </div>
+                <dd><input type=hidden name=prediction_id value = {{prediction_id}}>
+                <dd><input type=hidden name=is_likelihood value = 'false'>
+              </dl>
+              <div class="mdl-card__actions mdl-card--border">
+                <input class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type=submit value=Submit>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="mdl-tabs__panel  is-active" id="auto-panel">
+          <div class="mdl-card__supporting-text">
+            {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+            <form action="{{ url_for('CreateTrade') }}" method=post>
+              <dl>
+                <dt>Likelihood<br>
+                <input type="range" name=likelihood id="likelihood" min="1" max="99" value="50" onchange="showValue(this.value)"/>
+                <span id="range">50</span>
+                <div class="mdl-tooltip" for="likelihood">
+                  Enter your estimated<br>probability from 1 - 99
+                </div>
+                <dd><input type=hidden name=prediction_id value = {{prediction_id}}>
+                <dd><input type=hidden name=is_likelihood value = 'true'>
+              </dl>
+              <div class="mdl-card__actions mdl-card--border">
+                  <input class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type=submit value=Submit>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="mdl-tabs__panel" id="holdings-panel">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" id="holdings-table">
+          <thead>
+            <tr>
+              <th>Yes</th>
+              <th>No</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {% if portfolio[0] %}
+              <td>{{portfolio[0].contract_one | round(2)}}</td>
+              <td>{{portfolio[0].contract_two | round(2)}}</td>
+              {% endif %}
+            </tr>
+          </tbody>
+        </table>
+        <div class="mdl-tooltip" for="holdings-table">
+          Number of shares you own
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Chart Panel-->
+  <div class="mdl-cell mdl-cell--6-col">
+  <div class="mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title mdl-card--expand">
+    <h2 class="mdl-card__title-text">Probability</h2>
+  </div>
+  <figure class="chart" data-percent="75">
+    <figcaption>{{ (price * 100) | round(2) }}%</figcaption>
+    <svg width="200" height="200">
+      <circle class="outer" cx="95" cy="95" r="85" transform="rotate(-90, 95, 95)"/>
+    </svg>
+  </figure>
+  </div>
+  </div>
+</div>
+<script type="text/javascript">
+function showValue(newValue)
+{
+  document.getElementById("range").innerHTML=newValue;
+}
+</script>
+{% endblock %}

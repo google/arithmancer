@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block body %}
+<b>What is this?</b>
+<p>Arithmancer is a project to track predictions and allow anyone to predict the likelihood that an event will actually happen.</p>
+
+<b>Why?</b>
+<p>Predictions matter. Whenever we make a decision, we’re modeling the future and predicting what will happen. To make better predictions, we need to collaborate, share information, and track outcomes. By creating a central record of predictions, we can aggregate individual predictions and get significantly more accurate group predictions.</p>
+
+<b>How does it work?</b>
+<p>Its a prediction market based on <a href="http://mason.gmu.edu/~rhanson/mktscore.pdf">logarithmic market scoring rules.</a></p>
+
+<b>How is the crowd probability computed?</b>
+<p>It’s the current price of a single yes "vote" expressed as a percentage, which according to <a href="https://en.wikipedia.org/wiki/Efficient-market_hypothesis">EMH</a> should incorporate all of the available information.</p>
+
+<b>How does scoring work?</b>
+<p>After the outcome date has passed, you'll receive points based on the accuracy of your prediction.</p>
+
+<b>Auto? What does that mean?</b>
+<p>Not everyone enjoys thinking in strictly finance terms. The auto form lets you submit a probability, your estimate of the likelihood of the event happening, and then using a <a href="https://en.wikipedia.org/wiki/Kelly_criterion">conservative Kelly Criterion betting strategy</a> auto calculates the quantity of Yes or No to buy or sell.</p>
+<p>If there is a sell involved, the system naively sells all, as opposed to adding a limit trade. That's a TODO.</p>
+
+<b>Who is working on this?</b>
+<p>This is currently an informal project by goldhaber@google.com </p>
+{% endblock %}
