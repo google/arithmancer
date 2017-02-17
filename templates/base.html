@@ -2,42 +2,7 @@
 <head>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-<style>
-.section--center {
-  max-width: 860px;
-}
-input[type=text],
-input[type=email],
-input[type=number],
-textarea,
-fieldset {
-/* required to properly style form 
-   elements on WebKit based browsers */
-  -webkit-appearance: none;
-  
-  width : 100%;
-  border: 1px solid #333;
-  margin: 0;
-  
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-input:invalid {
-  box-shadow: 0 0 5px 1px red;
-}
-
-input:focus:invalid {
-  outline: none;
-}
-
-.card-1 {
-  margin-bottom: 1.5em;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-}
-
-</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 <title>Arithmancer</title>
 </head>

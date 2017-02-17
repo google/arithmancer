@@ -18,20 +18,19 @@
   border-radius: 100px;
   line-height: 50px;
 }
+
 .outer {
   fill: transparent;
   stroke: #333;
   stroke-width: 20;
   stroke-dasharray: 534.07;
   transition: stroke-dashoffset 1s;
-  -webkit-animation-play-state: running;
-  
-  /* firefox bug fix - won't rotate at 90deg angles */
-  -moz-transform: rotate(-89deg) translateX(-190px);
 }
+
 svg .outer {
   stroke: #e34f26;
 }
+
 .chart svg {
   position: absolute;
   top: 0;

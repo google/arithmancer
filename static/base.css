@@ -1,0 +1,75 @@
+
+.section--center {
+  max-width: 860px;
+}
+input[type=text],
+input[type=email],
+input[type=number],
+textarea,
+fieldset {
+/* required to properly style form 
+   elements on WebKit based browsers */
+  -webkit-appearance: none;
+  
+  width : 100%;
+  border: 1px solid #333;
+  margin: 0;
+  
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+input:invalid {
+  box-shadow: 0 0 5px 1px red;
+}
+
+input:focus:invalid {
+  outline: none;
+}
+
+.card-1 {
+  margin-bottom: 1.5em;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+
+.chart {
+  position: relative;
+  display: inline-block;
+  color: #999;
+  font-size: 20px;
+  text-align: center;
+}
+
+.chart figcaption {
+  padding: 50px 25px;
+  width: 100px;
+  height: 50px;
+  border: 20px solid #3f8df9;
+  border-radius: 100px;
+  line-height: 50px;
+}
+.outer {
+  fill: transparent;
+  stroke: #333;
+  stroke-width: 20;
+  stroke-dasharray: 534.07;
+  transition: stroke-dashoffset 1s;
+  -webkit-animation-play-state: running;
+  
+  /* firefox bug fix - won't rotate at 90deg angles */
+  -moz-transform: rotate(-89deg) translateX(-190px);
+}
+svg .outer {
+  stroke: #e34f26;
+}
+.chart svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.chart .outer {
+  stroke-dashoffset: {{(price * 534.07) | round(0)}};
+}
