@@ -20,6 +20,7 @@ import unittest
 
 
 if __name__ == '__main__':
+  os.environ["SECRET_KEY"] = "TEST_SECRET"
   unittest.main()
 # [START imports]
 import unittest
@@ -75,7 +76,8 @@ class PriceTestCase(unittest.TestCase):
 
   def testPriceForBuyTrade(self):
     prediction_key = Prediction(
-        contract_one=0.00, contract_two=0.00, liquidity=100).put()
+        contract_one=0.00, contract_two=0.00,
+        liquidity=100, statement="Test", end_time=datetime.datetime.now()).put()
     user_key = Profile().put()
     trade = Trade(
         prediction_id=prediction_key,
@@ -86,7 +88,11 @@ class PriceTestCase(unittest.TestCase):
     priceBuy = get_price_for_trade(prediction_key.get(), trade)
     self.assertEqual(5.124947951362557, priceBuy)
     prediction_key = Prediction(
-        contract_one=10.00, contract_two=0.00, liquidity=100).put()
+        contract_one=10.00,
+        contract_two=0.00,
+        liquidity=100,
+        statement="Test",
+        end_time=datetime.datetime.now()).put()
     trade = Trade(
         prediction_id=prediction_key,
         user_id=user_key,
@@ -111,7 +117,7 @@ class TradeTestCase(unittest.TestCase):
 
   def testBuyTradeLikelihood(self):
     prediction_key = Prediction(
-        contract_one=0.00, contract_two=0.00, liquidity=100).put()
+        contract_one=0.00, contract_two=0.00, liquidity=100, statement="Test", end_time=datetime.datetime.now()).put()
     user_key = Profile(balance=100).put()
     profile = user_key.get()
     prediction = prediction_key.get()
@@ -141,6 +147,7 @@ class ScoringTestCase(unittest.TestCase):
         liquidity=100,
         resolved=False,
         outcome='CONTRACT_ONE',
+        statement='Test',
         end_time=datetime.datetime.now()).put()
     user_key = Profile(
         balance=100,

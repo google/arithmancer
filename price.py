@@ -25,9 +25,8 @@ from google.appengine.ext import ndb
 
 
 def price():
-  # {1/20/2017: [{pred_id: 1, price: $200}}
   predictions = Prediction.query(
-      ndb.AND(Prediction.outcome == None, Prediction.resolved == None)).fetch()
+      ndb.AND(Prediction.outcome == "UNKNOWN", Prediction.resolved == False)).fetch()
   input_date = datetime.datetime.now()
 
   for p in predictions:

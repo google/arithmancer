@@ -24,11 +24,11 @@ from models import Prediction, Trade, LedgerRecords, Profile
 from google.appengine.ext import ndb
 
 
-#this whole function is terrible and should be rewritten using some type of parent/child pattern
+# TODO(goldhaber): this whole function is terrible; rewrite.
 def scoring():
   #go through all predictions, check if should be scored
   predictions = Prediction.query(
-      ndb.AND(Prediction.outcome != None, Prediction.resolved == False)).fetch()
+      ndb.AND(Prediction.outcome != "UNKNOWN", Prediction.resolved == False)).fetch()
   audit = []
   # Get all trades by prediction_id
   for p in predictions:

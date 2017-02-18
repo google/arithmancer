@@ -21,19 +21,30 @@ import math
 from google.appengine.api import users
 from google.appengine.ext import ndb
 
-
 class Prediction(ndb.Model):
   """Prediction model."""
+  # Description of the prediction; how will the outcome be evaluated.
   info = ndb.TextProperty()
-  statement = ndb.StringProperty()
+  # The prediction statement, a clear true or false proposition.
+  statement = ndb.StringProperty(required=True)
+  # When the prediction was created.
   creation_time = ndb.DateTimeProperty(auto_now_add=True)
-  end_time = ndb.DateTimeProperty()
-  contract_one = ndb.FloatProperty()
-  contract_two = ndb.FloatProperty()
-  liquidity = ndb.FloatProperty()
+  # When the prediction will be evaluated.
+  end_time = ndb.DateTimeProperty(required=True)
+  # The number of shares of contract one (YES) in the market.
+  contract_one = ndb.FloatProperty(default=0.00, required=True)
+  # The number of shares of contract two (NO) in the market.
+  contract_two = ndb.FloatProperty(default=0.00, required=True)
+  # The initial liquidity for the market maker.
+  liquidity = ndb.FloatProperty(default=100.00, required=True)
+  # Optional association with a group of similar predictions (organization)
   org = ndb.StringProperty()
-  outcome = ndb.StringProperty()
-  resolved = ndb.BooleanProperty()
+  # When the result is known, set as CONTRACT_ONE or CONTRACT TWO
+  # TODO(goldhaber): Replace all outcome with enum field
+  outcome = ndb.StringProperty(default='UNKNOWN')
+  # Inidcates if scorer.py has paid out the participants in the market
+  resolved = ndb.BooleanProperty(default=False)
+  # TODO(goldhaber): Add ACLs to limit visibility and participants
   access_group = ndb.StringProperty()
 
   def GetPriceByPredictionId(self):

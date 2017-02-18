@@ -143,7 +143,6 @@ def GetUserPortfolioByAuth(prediction_id):
     ]
   return portfolio
 
-
 @app.route('/trades/create', methods=['POST'])
 def CreateTrade():
   """Creates a trade for the user."""
