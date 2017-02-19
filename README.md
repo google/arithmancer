@@ -12,7 +12,7 @@ Arithmancer is a prediction market application. Users can make trades on predict
 
 pip install -r requirements.txt
 
-Download and install the Google Cloud SDK, and use dev_appserver.py to run a local server for development. Create predictions from within the admin console.
+Download and install the Google Cloud SDK, and use dev_appserver.py to run a local server for development. Create your first prediction by going to "/predictions/create". 
 
 ### Prerequisites
 
@@ -29,6 +29,7 @@ Please read CONTRIBUTING.md for details on contributing
 ## Authors
 
 * **Ben Goldhaber** - *Initial work*
+* **Nathan Rogers** - *Daily Price Cron Job*
 
 
 ## License
