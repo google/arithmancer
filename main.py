@@ -19,6 +19,7 @@ from flask import Flask
 from google.appengine.ext import ndb
 from google.appengine.api import users
 
+import datetime
 import math
 import logging
 import os
@@ -96,6 +97,24 @@ def GetPredictionById(prediction_id):
       prediction_id=prediction_id,
       portfolio=portfolio)
 
+@app.route('/predictions/create', methods=['GET'])
+def CreatePrediction():
+  return render_template('prediction_create.html')
+
+@app.route('/predictions/create/new', methods=['POST'])
+def NewPrediction():
+  try:
+    prediction = Prediction(liquidity=float(request.form['liquidity']),
+     info=request.form['info'],
+     statement=request.form['statement'],
+     end_time=datetime.datetime.strptime(request.form['endtime'], "%Y-%m-%d"),
+     org=request.form['org'])
+    prediction_id = prediction.put()
+    flash('You created a new prediction!')
+    return redirect('/predictions/' + prediction_id.urlsafe())
+  except:
+    flash('error')
+    return redirect('/predictions/create')  
 
 @app.route('/users/create', methods=['GET'])
 def CreateUser():

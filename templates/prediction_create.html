@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>Create Prediction</h1>
+<form action="{{ url_for('NewPrediction') }}" method=post>
+	Statement:
+	<input type="text" name=statement id="statement" />
+	Info:
+	<input type="text" name=info id="info" />
+	Org:
+	<input type="text" name=org id="org" />
+	Liquidity:
+	<input type="number" name=liquidity id="liquidity" />
+	End_Date:
+	<input type="date" name=endtime id="endtime" />
+	<div class="mdl-card__actions mdl-card--border">
+    	<input class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" 
+    	type=submit value=Submit>
+  	</div>
+</form>
+{% endblock %}

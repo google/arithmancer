@@ -26,6 +26,14 @@ handlers:
   script: scorer.app
   login: admin
 
+- url: /predictions/create
+  script: main.app
+  login: admin
+
+- url: /predictions/create/.*
+  script: main.app
+  login: admin
+
 - url: .*
   script: main.app
 

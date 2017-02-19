@@ -23,6 +23,7 @@ if __name__ == '__main__':
   os.environ["SECRET_KEY"] = "TEST_SECRET"
   unittest.main()
 # [START imports]
+
 import unittest
 import datetime
 
@@ -30,8 +31,14 @@ from google.appengine.api import memcache
 from google.appengine.ext import ndb
 from google.appengine.ext import testbed
 
-from models import Trade, Prediction, Profile, LedgerRecords, get_price_for_trade, calculate_trade_from_likelihood
-from main import CreateTrade, GetPriceByPredictionId
+from models import Trade
+from models import Prediction
+from models import Profile
+from models import LedgerRecords
+from models import get_price_for_trade
+from models import calculate_trade_from_likelihood
+from main import CreateTrade
+from main import GetPriceByPredictionId
 from scorer import scoring
 
 # [END imports]
