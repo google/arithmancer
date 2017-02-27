@@ -24,7 +24,12 @@ python runner.py app_test.py
 
 ## Contributing
 
-Please read CONTRIBUTING.md for details on contributing
+Please read CONTRIBUTING.md for details on contributing.
+
+Features that would be desired/on the roadmap:
+- Comments
+- ACLs for viewing and trading on a prediction
+- Search
 
 ## Authors
 
