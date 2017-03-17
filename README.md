@@ -2,6 +2,8 @@
 
 Arithmancer is a prediction market application. Users can make trades on predictions, betting on how likely an event is to occur. Each prediction is an individual market with a market maker system modeled on Robin Hanson's logarithmic market scoring rules.
 
+This was designed and tested as an internal corporate decision market. Using outside of an organization as a general application will likely require additional features (ex. ACLs, better form validation and security, etc.).
+
 Note: This is not an official Google product.
 
 ![Arithmancer](https://storage.googleapis.com/arithmancer-static/arithmancer.png "Preview")
