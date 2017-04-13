@@ -46,8 +46,8 @@ svg .outer {
 <div class="mdl-cell mdl-cell--12-col">
 <h2>{{ prediction.statement }}</h2>
 <li>Info: {{ prediction.info }}</li>
-<li>Creation Date: {{prediction.creation_time}}</li>
-<li>Resolve Date: {{prediction.end_time}}</li>
+<li>Creation Date: {{prediction.creation_time.strftime('%D')}}</li>
+<li>Resolve Date: {{prediction.end_time.strftime('%D')}}</li>
 </div>
 <!-- Bet Panel-->
   <div class="mdl-cell mdl-cell--6-col">
