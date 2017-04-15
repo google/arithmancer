@@ -14,7 +14,7 @@ Note: This is not an official Google product.
 
 pip install -r requirements.txt
 
-Download and install the Google Cloud SDK, and use dev_appserver.py to run a local server for development. Create your first prediction by going to "/predictions/create". 
+[Download and install the Google Cloud SDK](https://cloud.google.com/sdk/downloads#interactive), and use dev_appserver.py to run a local server for development. Create your first prediction by going to "/predictions/create". 
 
 ### Prerequisites
 
