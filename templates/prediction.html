@@ -81,7 +81,7 @@ svg .outer {
           </div>
         </div>
         <div class="mdl-tabs__panel" id="holdings-panel">
-        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" id="holdings-table">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="holdings-table">
           <thead>
             <tr>
               <th>Yes</th>
@@ -93,7 +93,11 @@ svg .outer {
               {% if portfolio[0] %}
               <td>{{portfolio[0].contract_one | round(2)}}</td>
               <td>{{portfolio[0].contract_two | round(2)}}</td>
+              {% else %}
+              <td>0</td>
+              <td>0</td>
               {% endif %}
+
             </tr>
           </tbody>
         </table>
