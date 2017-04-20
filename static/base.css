@@ -7,14 +7,14 @@ input[type=email],
 input[type=number],
 textarea,
 fieldset {
-/* required to properly style form 
+/* required to properly style form
    elements on WebKit based browsers */
   -webkit-appearance: none;
-  
+
   width : 100%;
   border: 1px solid #333;
   margin: 0;
-  
+
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
@@ -57,7 +57,7 @@ input:focus:invalid {
   stroke-dasharray: 534.07;
   transition: stroke-dashoffset 1s;
   -webkit-animation-play-state: running;
-  
+
   /* firefox bug fix - won't rotate at 90deg angles */
   -moz-transform: rotate(-89deg) translateX(-190px);
 }
@@ -72,4 +72,15 @@ svg .outer {
 
 .chart .outer {
   stroke-dashoffset: {{(price * 534.07) | round(0)}};
+}
+
+.full-width {
+    width: 100%;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    border: 3px;
+    padding: 10px;
 }
