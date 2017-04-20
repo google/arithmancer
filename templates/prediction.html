@@ -58,38 +58,8 @@ svg .outer {
     <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
       <div class="mdl-tabs__tab-bar">
         <a href="#auto-panel" class="mdl-tabs__tab is-active">Predict</a>
-        <a href="#manual-panel" class="mdl-tabs__tab">Manual</a>
         <a href="#holdings-panel" class="mdl-tabs__tab">Holdings</a>
       </div>
-        <div class="mdl-tabs__panel" id="manual-panel">
-          <div class="mdl-card__supporting-text">
-            {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %} </p>
-            <form action="{{ url_for('CreateTrade') }}" method=post>
-              <dl>
-                <dt>Buy/Sell
-                <select name="direction">
-                  <option value="BUY">BUY</option>
-                  <option value="SELL">SELL</option>
-                </select>
-                <dt>Contract
-                <select name="contract">
-                  <option value="CONTRACT_ONE">YES</option>
-                  <option value="CONTRACT_TWO">NO</option>
-                </select>
-                <dt>Quantity:
-                <dd><input type=number name=quantity min="0" id="quantity">
-                <div class="mdl-tooltip" for="quantity">
-                  Number of shares to buy
-                </div>
-                <dd><input type=hidden name=prediction_id value = {{prediction_id}}>
-                <dd><input type=hidden name=is_likelihood value = 'false'>
-              </dl>
-              <div class="mdl-card__actions mdl-card--border">
-                <input class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type=submit value=Submit>
-              </div>
-            </form>
-          </div>
-        </div>
         <div class="mdl-tabs__panel  is-active" id="auto-panel">
           <div class="mdl-card__supporting-text">
             {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
