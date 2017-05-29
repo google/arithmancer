@@ -14,3 +14,14 @@ indexes:
   properties:
   - name: resolved
   - name: outcome
+
+- kind: Price
+  properties:
+  - name: prediction_id
+  - name: date
+
+- kind: Price
+  properties:
+  - name: prediction_id
+  - name: date
+    direction: desc
