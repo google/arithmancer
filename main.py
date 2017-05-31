@@ -26,13 +26,14 @@ import os
 from flask import render_template
 from flask import redirect
 from flask import request
-from flask import json
+from flask import jsonify
 from flask import flash
 
 from models import Prediction
 from models import Trade
 from models import LedgerRecords
 from models import Profile
+from models import Price
 from models import get_price_for_trade
 from models import verification_of_trade
 from models import check_if_user_profile
@@ -49,7 +50,7 @@ def CheckSignIn():
   if not user:
     login_url = users.create_login_url('/')
     greeting = '<a href="{}">Sign in</a>'.format(login_url)
-    return str(greeting)
+    return render_template('splash.html', login=login_url)
   else:
     profile = check_if_user_profile(user.user_id())
     return redirect('/predictions')
@@ -80,6 +81,12 @@ def GetPriceByPredictionId(prediction_id):
           math.e, (pred.contract_two / pred.liquidity)))
   return float(price)
 
+@app.route('/predictions/<string:prediction_id>/pricelist', methods=['GET'])
+def GetPrices(prediction_id):
+    prices = Price.query(Price.prediction_id == ndb.Key(urlsafe=prediction_id)).order(-Price.date).fetch(30)
+    print(str(prices))
+    prices = [{'price': p.value, 'date': {'year': p.date.year, 'month': p.date.month, 'day': p.date.day}} for p in prices]
+    return prices
 
 @app.route('/predictions/<string:prediction_id>', methods=['GET'])
 def GetPredictionById(prediction_id):
@@ -94,6 +101,7 @@ def GetPredictionById(prediction_id):
       'prediction.html',
       prediction=prediction,
       price=GetPriceByPredictionId(prediction_id),
+      pricelist=GetPrices(prediction_id),
       prediction_id=prediction_id,
       portfolio=portfolio)
 
@@ -114,7 +122,7 @@ def NewPrediction():
     return redirect('/predictions/' + prediction_id.urlsafe())
   except:
     flash('error')
-    return redirect('/predictions/create')  
+    return redirect('/predictions/create')
 
 @app.route('/users/create', methods=['GET'])
 def CreateUser():
@@ -184,6 +192,13 @@ def CreateTrade():
         direction=request.form['direction'],
         contract=request.form['contract'],
         quantity=float(request.form['quantity']))
+  err = CreateTradeAction(prediction, current_user, trade)
+  #TODO replace with error
+  if err != 'error':
+      flash('You successfully predicted!')
+  return redirect('/predictions/' + trade.prediction_id.urlsafe())
+
+def CreateTradeAction(prediction, current_user, trade):
   verification_of_trade(trade)
   price = get_price_for_trade(prediction, trade)
   # TODO(goldhaber):replace flag
@@ -245,9 +260,40 @@ def CreateTrade():
     ledger_records.put()
   current_user.put()
   prediction.put()
-  flash('You successfully predicted!')
-  return redirect('/predictions/' + trade.prediction_id.urlsafe())
 
+
+@app.route('/trades/sell', methods=['POST'])
+def SellStake():
+  user_id = users.get_current_user().user_id()
+  user_key = ndb.Key('Profile', user_id)
+  current_user = user_key.get()
+  prediction_key = ndb.Key(urlsafe=request.form['prediction_id'])
+  prediction = prediction_key.get()
+  portfolio = GetUserPortfolioByAuth(request.form['prediction_id'])
+  for ledger in portfolio:
+      if ledger.contract_one > 0:
+          contract = 'CONTRACT_ONE'
+          quantity = ledger.contract_one
+      else:
+          contract = 'CONTRACT_TWO'
+          quantity = ledger.contract_two
+  trade = Trade(
+      prediction_id=prediction_key,
+      user_id=user_key,
+      direction='SELL',
+      contract=contract,
+      quantity=float(quantity))
+  err = CreateTradeAction(prediction, current_user, trade)
+  if err != 'error':
+      flash('You sold your stake!')
+  return redirect('/users/me')
+
+@app.route('/testtrade/<string:prediction_id>', methods=['GET'])
+def GetTradesForPredictionId(prediction_id):
+    user = users.get_current_user()
+    trades = Trade.query(ndb.AND(Trade.prediction_id == ndb.Key(urlsafe=prediction_id),
+                                 Trade.user_id == ndb.Key('Profile', user.user_id()))).fetch()
+    return str(trades)
 
 @app.route('/faq', methods=['GET'])
 def GetFaq():
@@ -258,3 +304,12 @@ def GetFaq():
 def page_not_found(e):
   """Return a custom 404 error."""
   return render_template('404.html'), 404
+
+@app.context_processor
+def inject_balance():
+    user = users.get_current_user()
+    if not user:
+        return dict(balance=0)
+    user_key = ndb.Key('Profile', user.user_id())
+    profile = user_key.get()
+    return dict(balance=profile.balance)

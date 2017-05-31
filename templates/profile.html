@@ -2,14 +2,27 @@
 {% block body %}
 <h1>Profile</h1>
 <h4>Balance: {{profile.balance | round(2)}}</h4>
+<p>This is your current 'balance' of points. When you make a prediction, you spend
+points to 'buy into' that event. You can't make a prediction if the cost would be higher than your
+current balance. In that case sell from another prediction you've made!</p>
 <h4>Holdings</h4>
+<p>This is your current portfolio, based on the predictions you have made. When
+  you make or change a prediction you are automatically 'invested' in the outcome
+  of the event. For example, if you thought it was more likely to happen than the current consensus,
+  you'll receive shares of "yes". If the event does in fact happen, you'll receive one point
+  for every share of yes that you have, adding to your point total.</p>
+  <p>You can also sell your shares at any point, by clicking sell shares or by predicting in the opposite direction
+     (ex. if the current consensus is 60%, you have 10 no shares from previously predicting 50%, and you predict 70%
+     you will first sell all of your no shares and then buy yes shares)</p>
 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
   <thead>
     <tr>
       <th class="mdl-data-table__cell--non-numeric">Prediction</th>
       <th>Yes</th>
       <th>No</th>
-	  <th>Value</th>
+  	  <th>Value</th>
+      <th class="mdl-data-table__cell--non-numeric"> Sell
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -18,10 +31,15 @@
       <td class="mdl-data-table__cell--non-numeric"><a href="../predictions/{{ledger.prediction_id}}"> {{ledger.prediction_statement}} </a></td>
       <td>{{ledger.contract_one}}</td>
       <td>{{ledger.contract_two}}</td>
-      <td>{{ledger.value | round(2)}}<td>
+      <td>~ {{ledger.value | round(2)}}</td>
+      <td>
+        <form action="{{ url_for('SellStake') }}" method=post>
+          <input type=hidden name=prediction_id value = {{ledger.prediction_id}}>
+          <input type=submit value=Sell>
+        </form>
+      </td>
     </tr>
  {% endfor %}
   </tbody>
 </table>
 {% endblock %}
-

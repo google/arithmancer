@@ -34,6 +34,18 @@ handlers:
   script: main.app
   login: admin
 
+- url: /predictions/.*
+  script: main.app
+  login: required
+
+- url: /users/.*
+  script: main.app
+  login: required
+
+- url: /trades/.*
+  script: main.app
+  login: required
+
 - url: .*
   script: main.app
 
