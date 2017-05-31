@@ -1,14 +1,8 @@
-
-.section--center {
-  max-width: 860px;
-}
 input[type=text],
 input[type=email],
 input[type=number],
 textarea,
 fieldset {
-/* required to properly style form
-   elements on WebKit based browsers */
   -webkit-appearance: none;
 
   width : 100%;
@@ -25,10 +19,4 @@ input:invalid {
 
 input:focus:invalid {
   outline: none;
-}
-
-.card-1 {
-  margin-bottom: 1.5em;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
